@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "control-multiple-agv"
+version = "0.1.0"
+description = ""
+authors = ["toanlk13 <toanlk13@ghtk.co>"]
+readme = "README.md"
+packages = [{include = "control_multiple_agv"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.85.0"
+uvicorn = {extras = ["standard"], version = "^0.18.3"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
