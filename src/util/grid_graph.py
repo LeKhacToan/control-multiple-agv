@@ -1,5 +1,7 @@
 from typing import Iterator
+
 from .graph_type import GridLocation, Location
+from .constant import Direction
 
 
 class SquareGrid:
@@ -48,3 +50,35 @@ def reconstruct_path(came_from: dict[Location, Location],
     path.append(start)  # optional
     path.reverse()  # optional
     return path
+
+
+def is_change_direction(prev_position: Location, position: Location,
+                        direc: Direction) -> bool:
+    prev_x, prev_y = prev_position
+    x, y = position
+
+    horizontal = [prev_x - 1, prev_x + 1]  # E W
+    vertical = [prev_y - 1, prev_y + 1]  # N S
+
+    if x in horizontal and direc in [Direction.N, Direction.S]:
+        return True
+    if y in vertical and direc in [Direction.E, Direction.W]:
+        return True
+
+    return False
+
+
+def convert_path_to_obstacle(path: list[Location],
+                             direction: Direction) -> list[Location]:
+    obstacles = []
+    for index, location in path:
+        if index == 0:
+            # current position as obstacles (k=1)
+            obstacles.append(location, location)
+        else:
+            prev_index = index - 1
+            if is_change_direction(path[prev_index], location, direction):
+                obstacles.append(location, location)
+            else:
+                obstacles.append(location)
+    return obstacles
