@@ -1,4 +1,4 @@
-# Controll mutiple agv
+# Control mutiple agv
 Path finding, task scheduling for multiple AGV robot
 ## Requirements
 - Python3
