@@ -1,8 +1,9 @@
 from fastapi import FastAPI
-from src.util.time_enhanced import time_enhanced
+
+from ws.path import router as ws_router
 
 app = FastAPI()
-
+app.include_router(ws_router)
 
 @app.on_event('startup')
 async def startup():
@@ -12,10 +13,3 @@ async def startup():
 @app.on_event('shutdown')
 async def shutdown():
     print('Closing...')
-
-
-@app.get("/")
-async def read_root():
-    data = [(1,3), (3,5), (3,6)]
-    await time_enhanced(1,data)
-    return {"Hello": "World"}
