@@ -1,8 +1,8 @@
 import time
 
+from config.redis import redis
 from .graph_type import Location
 from .constant import GRID_GRAPH_WALL_KEY, STEP_TIME
-from ..config.redis import redis
 
 
 async def time_enhanced(agv: int, obstacles: list[Location]):

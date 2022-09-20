@@ -52,33 +52,38 @@ def reconstruct_path(came_from: dict[Location, Location],
     return path
 
 
-def is_change_direction(prev_position: Location, position: Location,
-                        direc: Direction) -> bool:
-    prev_x, prev_y = prev_position
+def change_direction(next_position: Location, position: Location,
+                     direc: Direction) -> bool:
+    next_x, next_y = next_position
     x, y = position
 
-    horizontal = [prev_x - 1, prev_x + 1]  # E W
-    vertical = [prev_y - 1, prev_y + 1]  # N S
+    horizontal = [x - 1, x + 1]  # E W
+    vertical = [y - 1, y + 1]  # N S
 
-    if x in horizontal and direc in [Direction.N, Direction.S]:
-        return True
-    if y in vertical and direc in [Direction.E, Direction.W]:
-        return True
+    if next_x in horizontal and direc in [Direction.N.value, Direction.S.value]:
+        return True, Direction.E.value
+    if next_y in vertical and direc in [Direction.E.value, Direction.W.value]:
+        return True, Direction.N.value
 
-    return False
+    return False, direc
 
 
 def convert_path_to_obstacle(path: list[Location],
                              direction: Direction) -> list[Location]:
     obstacles = []
-    for index, location in path:
+    current_direc = direction
+    for index, location in enumerate(path):
+        obstacles.append(location)
         if index == 0:
             # current position as obstacles (k=1)
-            obstacles.append(location, location)
-        else:
-            prev_index = index - 1
-            if is_change_direction(path[prev_index], location, direction):
-                obstacles.append(location, location)
-            else:
+            obstacles.append(location)
+
+        next_index = index + 1
+        if next_index < len(path):
+            is_change, direc = change_direction(
+                path[next_index], location, current_direc)
+            current_direc = direc
+            if is_change:
+                # rotate -> 2 frames
                 obstacles.append(location)
     return obstacles
