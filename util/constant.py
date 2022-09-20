@@ -6,5 +6,5 @@ class Direction(Enum):
     S = 'S'
     W = 'W'
 
-STEP_TIME = 2 # seconds
+STEP_TIME = 1 # seconds
 GRID_GRAPH_WALL_KEY = 'grid_graph.wall'

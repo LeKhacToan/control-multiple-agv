@@ -31,7 +31,6 @@ async def get_wall(agv_id: int):
     sorted_keys = sorted(keys)
     key = sorted_keys[0]
     wall_raw = await redis.hgetall(key)
-    print(wall_raw)
     wall_value = [parse_tuple(value)
                   for key, value in wall_raw.items() if int(key) != agv_id]
     return wall_value
@@ -44,12 +43,12 @@ async def path_finding(websocket: WebSocket, agv_id: int):
         while True:
             data = await websocket.receive_json()
             direction = data['direction']
-            start = (data['position']['x'], data['position']['y'])
+            start = (data['location']['x'], data['location']['y'])
             goal = (250, 10)
 
             diagram = GridWithWeights(GRID_WIDTH, GRID_HEIGHT)
             diagram.walls = await get_wall(agv_id)
-            came_from, cost_so_far = a_star_search(diagram, start, goal)
+            came_from, _ = a_star_search(diagram, start, goal)
             path = reconstruct_path(came_from, start=start, goal=goal)
             coordinates = [{"x": x, "y": y} for x, y in path]
 
