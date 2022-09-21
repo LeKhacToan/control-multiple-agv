@@ -7,5 +7,5 @@ _env = os.environ.get
 
 REDIS_URL = _env("REDIS_URL")
 
-GRID_WIDTH = _env('GRID_WIDTH', 500)
-GRID_HEIGHT = _env('GRID_HEIGHT', 500)
+GRID_WIDTH = _env('GRID_WIDTH', 50)
+GRID_HEIGHT = _env('GRID_HEIGHT', 30)
