@@ -12,10 +12,10 @@ async def time_enhanced(agv: int, obstacles: list[Location]):
 
     if len(sorted_keys) > len(obstacles):
         for index, name in enumerate(sorted_keys):
-            value = f'{obstacles[index]}'
             if index >= len(obstacles):
                 await redis.hdel(name, field)
             else:
+                value = f'{obstacles[index]}'
                 await redis.hset(name, field, value)
     else:
         for index, obs in enumerate(obstacles):

@@ -44,7 +44,7 @@ async def path_finding(websocket: WebSocket, agv_id: int):
             data = await websocket.receive_json()
             direction = data['direction']
             start = (data['location']['x'], data['location']['y'])
-            goal = (250, 10)
+            goal = (30, 20)
 
             diagram = GridWithWeights(GRID_WIDTH, GRID_HEIGHT)
             diagram.walls = await get_wall(agv_id)
