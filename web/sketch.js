@@ -1,14 +1,13 @@
-let W = 20;
-let columns;
-let rows;
+let W = 30;
+let columns = 50;
+let rows = 30;
 let v;
 
 function setup() {
-  createCanvas(1000, 600);
-  columns = floor(width / W);
-  rows = floor(height / W);
+  createCanvas(50 * W, rows * W);
 
-  v = new Vehicle(10, 110);
+  const vLocation = convert_location_to_pixel({ x: 0, y: 1 });
+  v = new Vehicle(vLocation.x, vLocation.y);
 
   v.ws.onmessage = function (event) {
     const a = JSON.parse(event.data).map((item) =>
@@ -17,8 +16,9 @@ function setup() {
     v.path = a;
     v.nextPosition = a[1];
   };
+  const vLocation2 = convert_location_to_pixel({ x: 10, y: 5 });
 
-  v2 = new Vehicle(30, 30, 2);
+  v2 = new Vehicle(vLocation2.x, vLocation2.y, 2);
   v2.ws.onmessage = function (event) {
     const a = JSON.parse(event.data).map((item) =>
       convert_location_to_pixel(item)
@@ -27,7 +27,8 @@ function setup() {
     v2.nextPosition = a[1];
   };
 
-  v3 = new Vehicle(10, 10, 3);
+  const vLocation3 = convert_location_to_pixel({ x: 5, y: 5 });
+  v3 = new Vehicle(vLocation3.x, vLocation3.y, 3);
   v3.ws.onmessage = function (event) {
     const a = JSON.parse(event.data).map((item) =>
       convert_location_to_pixel(item)
