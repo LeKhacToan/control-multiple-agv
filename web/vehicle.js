@@ -2,18 +2,20 @@ class Vehicle {
   constructor(x, y, id = 1) {
     this.x = x;
     this.y = y;
-    this.speed = 1;
+    this.id = id;
+    this.speed = 0.5;
     this.available = true;
     this.direction = "N";
     this.path = [];
     this.nextPosition = { x: this.x, y: this.y };
     this.ws = new WebSocket(`ws://localhost:8000/path/${id}`);
     this.flag = false;
+    this.goal = { x: parseInt(random(2, 49)), y: parseInt(random(2, 29)) };
   }
 
   isInNode() {
-    const xLocation = (this.x - 10) % 20 === 0;
-    const yLocation = (this.y - 10) % 20 === 0;
+    const xLocation = (this.x - W / 2) % W === 0;
+    const yLocation = (this.y - W / 2) % W === 0;
     return xLocation && yLocation;
   }
 
@@ -55,6 +57,7 @@ class Vehicle {
       this.ws.send(
         JSON.stringify({
           location: { x, y },
+          goal: this.goal,
           direction: this.direction,
         })
       );
@@ -71,6 +74,13 @@ class Vehicle {
 
     if (this.y !== y) {
       this.y = this.y < y ? this.y + this.speed : this.y - this.speed;
+    }
+
+    const { x: goalX, y: goalY } = convert_location_to_pixel(this.goal);
+
+    if (this.x === goalX && this.y === goalY) {
+      console.log(`NEW TASK AGV ${this.id}`);
+      this.goal = { x: parseInt(random(2, 49)), y: parseInt(random(2, 29)) };
     }
   }
 
@@ -96,10 +106,10 @@ class Vehicle {
 }
 
 function convert_location_to_pixel(position) {
-  return { x: position.x * 20 + 10, y: position.y * 20 + 10 };
+  return { x: position.x * W + W / 2, y: position.y * W + W / 2 };
 }
 
 function convert_pixel_to_location(pixel) {
   const { x, y } = pixel;
-  return { x: (x - 10) / 20, y: (y - 10) / 20 };
+  return { x: (x - W / 2) / W, y: (y - W / 2) / W };
 }

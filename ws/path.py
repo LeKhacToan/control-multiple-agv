@@ -44,7 +44,7 @@ async def path_finding(websocket: WebSocket, agv_id: int):
             data = await websocket.receive_json()
             direction = data['direction']
             start = (data['location']['x'], data['location']['y'])
-            goal = (30, 20)
+            goal = (data['goal']['x'], data['goal']['y'])
 
             diagram = GridWithWeights(GRID_WIDTH, GRID_HEIGHT)
             diagram.walls = await get_wall(agv_id)
@@ -58,4 +58,5 @@ async def path_finding(websocket: WebSocket, agv_id: int):
                 path=path, direction=direction)
             await time_enhanced(agv_id, obstacles)
     except WebSocketDisconnect:
-        manager.disconnect(websocket)
+        print('errrorrr')
+        # manager.disconnect(websocket)
