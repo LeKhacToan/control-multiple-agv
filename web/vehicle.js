@@ -3,7 +3,7 @@ class Vehicle {
     this.x = x;
     this.y = y;
     this.id = id;
-    this.speed = 0.5;
+    this.speed = 1;
     this.available = true;
     this.direction = "N";
     this.path = [];
@@ -53,6 +53,7 @@ class Vehicle {
 
   findPath() {
     if (this.ws.readyState === WebSocket.OPEN && this.isInNode()) {
+      console.log(performance.now());
       const { x, y } = convert_pixel_to_location({ x: this.x, y: this.y });
       this.ws.send(
         JSON.stringify({

@@ -1,7 +1,7 @@
 # Control mutiple agv
 Path finding, task scheduling for multiple AGV robot
 ## Requirements
-- Python3
+- python v3
 
 ## Setup
 ```sh
@@ -12,3 +12,6 @@ poetry install
 ```sh
 uvicorn main:app --reload
 ```
+
+![Demo](./web/chrome-capture-2022-8-22.gif)
+
